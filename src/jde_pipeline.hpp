@@ -7,7 +7,20 @@
 
 namespace jde {
 
-    struct PipelineConfigInfo {};
+    struct PipelineConfigInfo {
+        VkViewport viewport;
+        VkRect2D scissor;
+        VkPipelineViewportStateCreateInfo viewportInfo;
+        VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
+        VkPipelineRasterizationStateCreateInfo rasterizationInfo;
+        VkPipelineMultisampleStateCreateInfo multisampleInfo;
+        VkPipelineColorBlendAttachmentState colorBlendAttachment;
+        VkPipelineColorBlendStateCreateInfo colorBlendInfo;
+        VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
+        VkPipelineLayout pipelineLayout = nullptr;
+        VkRenderPass renderPass = nullptr;
+        uint32_t subpass = 0;
+    };
 
     class JdePipeline {
         public:
@@ -16,7 +29,7 @@ namespace jde {
             const std::string& vertFilepath, 
             const std::string& fragFilepath, 
             const PipelineConfigInfo& configInfo);
-        ~JdePipeline() {}
+        ~JdePipeline();
         JdePipeline(const JdePipeline&) = delete;
         void operator=(const JdePipeline&) = delete;
 
@@ -34,7 +47,7 @@ namespace jde {
 
         // implicitly will outlive any class that depends on it. "aggregation"
         JdeDevice& jdeDevice;
-        VkPipeline grahpicsPipeline;
+        VkPipeline graphicsPipeline;
         VkShaderModule vertShaderModule;
         VkShaderModule fragShaderModule;
     };
