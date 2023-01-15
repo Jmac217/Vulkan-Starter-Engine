@@ -531,4 +531,4 @@ void JdeDevice::createImageWithInfo(
   }
 }
 
-}  // namespace lve
+}
