@@ -1,6 +1,7 @@
 #pragma once
 
 #include "jde_window.hpp"
+#include "jde_pipeline.hpp"
 
 namespace jde {
 
@@ -11,5 +12,6 @@ namespace jde {
         void run();
         private:
         JdeWindow jdeWindow{WIDTH, HEIGHT, "Hello Vulkan!"};
+        JdePipeline jdePipeline{"src/shaders/simple_shader.vert.spv", "src/shaders/simple_shader.frag.spv"};
     };
 }

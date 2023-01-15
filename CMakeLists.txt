@@ -3,12 +3,16 @@ project(Vulkan-Starter)
 
 # Set C++ standard to a proper standard
 set(CMAKE_CXX_STANDARD 20)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
 
 # Add the GLFW and Vulkan libraries
 find_package(glfw3 REQUIRED)
 find_package(Vulkan REQUIRED)
 find_package(glm REQUIRED)
+
+add_custom_target(copy_assets
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/src/shaders
+    ${CMAKE_CURRENT_BINARY_DIR}/src/shaders
+)
 
 # Dirty way to add all source files in the ./src directory
 file(GLOB_RECURSE SRC_FILES "src/*.cpp")
@@ -20,7 +24,7 @@ add_executable(Vulkan-Starter ${SRC_FILES})
 target_link_libraries(Vulkan-Starter glfw)
 target_link_libraries(Vulkan-Starter Vulkan::Vulkan)
 target_link_libraries(Vulkan-Starter glm::glm)
-
+add_dependencies(Vulkan-Starter copy_assets)
 
 # Build the project statically
 # set(CMAKE_EXE_LINKER_FLAGS "-static")

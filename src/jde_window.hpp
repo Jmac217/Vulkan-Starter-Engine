@@ -13,6 +13,8 @@ namespace jde {
         JdeWindow(const JdeWindow &) = delete;
         JdeWindow &operator=(const JdeWindow &) = delete;
         bool shouldClose() { return glfwWindowShouldClose(window); }
+        void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
+
         private:
         void initWindow();
 
