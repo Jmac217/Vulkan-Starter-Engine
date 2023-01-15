@@ -2,6 +2,7 @@
 
 #include "jde_window.hpp"
 #include "jde_pipeline.hpp"
+#include "jde_device.hpp"
 
 namespace jde {
 
@@ -12,6 +13,12 @@ namespace jde {
         void run();
         private:
         JdeWindow jdeWindow{WIDTH, HEIGHT, "Hello Vulkan!"};
-        JdePipeline jdePipeline{"src/shaders/simple_shader.vert.spv", "src/shaders/simple_shader.frag.spv"};
+        JdeDevice jdeDevice{jdeWindow};
+        JdePipeline jdePipeline{
+            jdeDevice, 
+            "src/shaders/simple_shader.vert.spv", 
+            "src/shaders/simple_shader.frag.spv", 
+            JdePipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)
+        };
     };
 }

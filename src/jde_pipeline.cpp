@@ -6,9 +6,14 @@
 
 namespace jde {
 
-    JdePipeline::JdePipeline(const std::string& vertFilepath, const std::string& fragFilepath)
+    JdePipeline::        JdePipeline(
+            JdeDevice &device, 
+            const std::string& vertFilepath, 
+            const std::string& fragFilepath, 
+            const PipelineConfigInfo& configInfo):
+            jdeDevice{device}
     {
-        createGraphicsPipeline(vertFilepath, fragFilepath);
+        createGraphicsPipeline(vertFilepath, fragFilepath, configInfo);
     }
 
 
@@ -33,7 +38,8 @@ namespace jde {
 
     void JdePipeline::createGraphicsPipeline(
         const std::string& vertFilepath, 
-        const std::string& fragFilepath)
+        const std::string& fragFilepath, 
+        const PipelineConfigInfo& configInfo)
     {
         auto vertCode = readFile(vertFilepath);
         auto fragCode = readFile(fragFilepath);
@@ -41,5 +47,26 @@ namespace jde {
         std::cout << "Vertex Shader Code Size: " << vertCode.size() << std::endl;
         std::cout << "Fragment Shader Code Size: " << fragCode.size() << std::endl;
     }
+
+    void JdePipeline::createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule)
+    {
+        VkShaderModuleCreateInfo createInfo{};
+        createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+        createInfo.codeSize = code.size();
+        createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
+
+        if (vkCreateShaderModule(jdeDevice.device(), &createInfo, nullptr, shaderModule) != VK_SUCCESS)
+        {
+            throw std::runtime_error("failed to create shader module");
+        }
+    }
+
+    PipelineConfigInfo JdePipeline::defaultPipelineConfigInfo(uint32_t width, uint32_t height)
+    {
+        PipelineConfigInfo configInfo{};
+
+        return configInfo;
+    }
+
 
 }
